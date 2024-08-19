@@ -31,6 +31,13 @@
             </p>
         <?php endif ?>
 
+        <?php if ($this->sermon['series']): ?>
+            <h3 class="church_social_sermon_archive__sermon_series_title">Series:</h3>
+            <p class="church_social_sermon_archive__sermon_series">
+                <?php echo $this->sermon['series']['name'] ?>
+            </p>
+        <?php endif ?>
+
         <?php if ($this->sermon['texts']): ?>
             <h3 class="church_social_sermon_archive__sermon_texts_title">Texts:</h3>
             <ul class="church_social_sermon_archive__sermon_texts">
