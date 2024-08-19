@@ -9,6 +9,7 @@ class SermonArchive
     protected $page_id;
     protected $sermons;
     protected $authors;
+    protected $series;
     protected $sermon;
 
     public function __construct()
@@ -34,6 +35,7 @@ class SermonArchive
         } else {
             $this->loadSermonsData();
             $this->loadAuthorData();
+            $this->loadSeriesData();
         }
     }
 
@@ -66,6 +68,7 @@ class SermonArchive
             CHURCH_SOCIAL_DOMAIN.'/public/church/'.$this->api_key.'/sermons?'.http_build_query([
                 'page' => isset($_GET['sermon_page']) ? $_GET['sermon_page'] : 1,
                 'author_id' => (isset($_GET['author_id']) ? $_GET['author_id'] : null),
+                'series_id' => (isset($_GET['series_id']) ? $_GET['series_id'] : null),
             ])
         );
 
@@ -96,6 +99,24 @@ class SermonArchive
 
         $response = json_decode($response['body'], true);
         $this->authors = $response['data'];
+    }
+
+    public function loadSeriesData()
+    {
+        if ($this->series) {
+            return;
+        }
+
+        $response = wp_remote_get(
+            CHURCH_SOCIAL_DOMAIN.'/public/church/'.$this->api_key.'/sermon-series'
+        );
+
+        if (!is_array($response) || $response['response']['code'] !== 200) {
+            return;
+        }
+
+        $response = json_decode($response['body'], true);
+        $this->series = $response['data'];
     }
 
     public function getPageTitle($title)

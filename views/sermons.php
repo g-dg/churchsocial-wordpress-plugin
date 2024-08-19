@@ -1,24 +1,47 @@
 <div class="church_social_sermon_archive">
 
-    <?php if ($this->authors): ?>
+    <?php if ($this->authors || $this->series): ?>
         <form class="church_social_sermon_archive__search_form">
             <input type="hidden" name="sermon_page" value="1">
             <p>
-                <label class="church_social_sermon_archive__search_form_minister_label" for="church_social_sermon_archive__search_form_minister_select">Minister:</label>
-                <select class="church_social_sermon_archive__search_form_minister_select" name="author_id" id="church_social_sermon_archive__search_form_minister_select">
-                    <option></option>
-                    <?php foreach ($this->authors as $author): ?>
-                        <?php if (isset($_GET['author_id']) and $_GET['author_id'] == $author['id']): ?>
-                            <option value="<?php echo $author['id'] ?>" selected="selected">
-                                <?php echo $author['last_name'] ?>, <?php echo $author['title'] ? $author['title'].' '.$author['first_name'] : $author['first_name'] ?>
-                            </option>
-                        <?php else: ?>
-                            <option value="<?php echo $author['id'] ?>">
-                                <?php echo $author['last_name'] ?>, <?php echo $author['title'] ? $author['title'].' '.$author['first_name'] : $author['first_name'] ?>
-                            </option>
-                        <?php endif ?>
-                    <?php endforeach ?>
-                </select>
+                <?php if ($this->authors): ?>
+                    <span style="white-space: nowrap;">
+                        <label class="church_social_sermon_archive__search_form_minister_label" for="church_social_sermon_archive__search_form_minister_select">Minister:</label>
+                        <select class="church_social_sermon_archive__search_form_minister_select" name="author_id" id="church_social_sermon_archive__search_form_minister_select">
+                            <option></option>
+                            <?php foreach ($this->authors as $author): ?>
+                                <?php if (isset($_GET['author_id']) and $_GET['author_id'] == $author['id']): ?>
+                                    <option value="<?php echo $author['id'] ?>" selected="selected">
+                                        <?php echo $author['last_name'] ?>, <?php echo $author['title'] ? $author['title'].' '.$author['first_name'] : $author['first_name'] ?>
+                                    </option>
+                                <?php else: ?>
+                                    <option value="<?php echo $author['id'] ?>">
+                                        <?php echo $author['last_name'] ?>, <?php echo $author['title'] ? $author['title'].' '.$author['first_name'] : $author['first_name'] ?>
+                                    </option>
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        </select>
+                    </span>
+                <?php endif ?>
+                <?php if ($this->series): ?>
+                    <span style="white-space: nowrap;">
+                        <label class="church_social_sermon_archive__search_form_series_label" for="church_social_sermon_archive__search_form_series_select">Series:</label>
+                        <select class="church_social_sermon_archive__search_form_series_select" name="series_id" id="church_social_sermon_archive__search_form_series_select">
+                            <option></option>
+                            <?php foreach ($this->series as $series): ?>
+                                <?php if (isset($_GET['series_id']) and $_GET['series_id'] == $series['id']): ?>
+                                    <option value="<?php echo $series['id'] ?>" selected="selected">
+                                        <?php echo $series['title'] ?> (<?php echo $series['sermons'] ?>)
+                                    </option>
+                                <?php else: ?>
+                                    <option value="<?php echo $series['id'] ?>">
+                                        <?php echo $series['title'] ?> (<?php echo $series['sermons'] ?>)
+                                    </option>
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        </select>
+                    </span>
+                <?php endif ?>
                 <button class="church_social_sermon_archive__search_form_button" type="submit">Search</button>
             </p>
         </form>
@@ -72,12 +95,12 @@
 
     <p class="church_social_sermon_archive__prev_and_next_page_buttons">
         <?php if ($this->meta['previous_page']): ?>
-            <a class="church_social_sermon_archive__prev_page_button" href="?sermon_page=<?php echo $this->meta['previous_page']?><?php echo isset($_GET['author_id']) ? '&author_id='.$_GET['author_id'] : '' ?>">
+            <a class="church_social_sermon_archive__prev_page_button" href="?sermon_page=<?php echo $this->meta['previous_page']?><?php echo isset($_GET['author_id']) ? '&author_id='.$_GET['author_id'] : '' ?><?php echo isset($_GET['series_id']) ? '&series_id='.$_GET['series_id'] : '' ?>">
                 Previous page
             </a>
         <?php endif ?>
         <?php if ($this->meta['next_page']): ?>
-            <a class="church_social_sermon_archive__next_page_button" href="?sermon_page=<?php echo $this->meta['next_page']?><?php echo isset($_GET['author_id']) ? '&author_id='.$_GET['author_id'] : '' ?>">
+            <a class="church_social_sermon_archive__next_page_button" href="?sermon_page=<?php echo $this->meta['next_page']?><?php echo isset($_GET['author_id']) ? '&author_id='.$_GET['author_id'] : '' ?><?php echo isset($_GET['series_id']) ? '&series_id='.$_GET['series_id'] : '' ?>">
                 Next page
             </a>
         <?php endif ?>
